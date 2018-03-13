@@ -174,3 +174,12 @@ def check_block_header(bitcoind, block_hash):
         defer.returnValue(False)
     else:
         defer.returnValue(True)
+
+@defer.inlineCallbacks
+def check_genesis_block(bitcoind, genesis_block_hash):
+    try:
+        yield bitcoind.rpc_getblock(genesis_block_hash)
+    except jsonrpc.Error_for_code(-5):
+        defer.returnValue(False)
+    else:
+        defer.returnValue(True)
